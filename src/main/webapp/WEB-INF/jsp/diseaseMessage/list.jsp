@@ -4,15 +4,16 @@
     <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 	<meta charset="utf-8"> 
-	<title>Bootstrap 实例 - 水平表单</title>
+	<title>病症列表</title>
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/css/bootstrap.min.css">  
 	<script src="${pageContext.request.contextPath }/js/jquery.min.js"></script>
 	<script src="${pageContext.request.contextPath }/js/bootstrap.min.js"></script>
 </head>
 <body>
 
-<div style="padding: 20px 100px 10px;">
+<div style="padding-top: 20px;">
 	<form action="find.do" class="bs-example bs-example-form" role="form">
 			<div class="col-lg-6">
 				<div class="input-group">

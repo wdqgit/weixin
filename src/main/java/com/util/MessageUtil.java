@@ -188,7 +188,7 @@ public class MessageUtil {
 		}
 	});
 	
-	public static int sendDuanXin(int code){
+	public static int sendDuanXin(int code, String phone){
 		String url="http://gw.api.taobao.com/router/rest";  
 		//成为开发者，创建应用后系统自动生成  
 		String appkey="23535101";  
@@ -201,7 +201,7 @@ public class MessageUtil {
 		req.setSmsType("normal");  
 		req.setSmsFreeSignName("用于微信号推广");  
 		req.setSmsParamString(json);  
-		req.setRecNum("15737347187");  
+		req.setRecNum(phone);  
 		req.setSmsTemplateCode("SMS_26200177");  
 		try {  
 		    AlibabaAliqinFcSmsNumSendResponse rsp = client.execute(req);  

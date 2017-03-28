@@ -26,39 +26,49 @@ public class CodeFormat implements Filter{
 	@Override
 	public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain chain)
 			throws IOException, ServletException {
-		final HttpServletRequest req = (HttpServletRequest)arg0;
-		HttpServletResponse resp = (HttpServletResponse) arg1;
-		req.setCharacterEncoding("UTF-8");
-		
-		resp.setCharacterEncoding("UTF-8");
-		resp.setContentType("text/html;utf-8");
-		if("GET".equals(req.getMethod())){
-			HttpServletRequest proxy = (HttpServletRequest)Proxy.newProxyInstance(req.getClass().getClassLoader(), req.getClass().getInterfaces(),
-					new InvocationHandler() {
-						@Override
-						public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-							if("getParameter".equals(method.getName())){
-								Enumeration<String> names = req.getParameterNames();
-								while (names.hasMoreElements()) {
-									String name = names.nextElement();
-									System.out.println("name:" + name);
-									String[] values = req.getParameterValues(name);
-									for(int i = 0; i < values.length; i++){
-										values[i] = new String(values[i].getBytes("ISO-8859-1"), "UTF-8");
-										System.out.print("value:" + values[i]);
-									}
-									req.setAttribute(name, values);
-								}
-							}
-							return method.invoke(req, args);
+		final HttpServletRequest req = (HttpServletRequest) arg0;
+		HttpServletResponse res = (HttpServletResponse) arg1;
+		res.setContentType("text/html;charset=UTF-8");  
+		HttpServletRequest proxy1 = (HttpServletRequest) Proxy.newProxyInstance(this.getClass().getClassLoader(), req.getClass().getInterfaces(), new InvocationHandler() {
+				
+				@Override
+				public Object invoke(Object proxy, Method method, Object[] args)
+						throws Throwable {
+					Object result = null;
+					if(req.getMethod().equals("GET")){
+						
+						if(method.getName().equals("getParameter") || method.getName().equals("getParameterValues")){
+							System.out.println("value -- args");
+							System.out.println(args[0]);
+							String[] value = req.getParameterValues(args[0].toString());
 							
+							System.out.println(value);
+						
+							if(value != null && value.length > 0){
+								String[] results = new String[value.length];
+								for (int i = 0; i < value.length; i++) {
+									results[i] = new String( value[i].getBytes("ISO-8859-1"),"UTF-8");
+									System.out.println(results[i]);
+								}
+								return results;
+							}
+							else{
+								result = method.invoke(req, args);
+							}
+						}else{
+							result = method.invoke(req, args);
 						}
-					});
-			chain.doFilter(proxy, resp);
-		}else{
-			chain.doFilter(req, resp);
-		}
+					}else{
+						req.setCharacterEncoding("UTF-8");
+					
+						 result = method.invoke(req, args);
+					}
+					
+					return result;
+				}
+			});
 		
+		chain.doFilter(proxy1, res);
 	}
 
 	@Override

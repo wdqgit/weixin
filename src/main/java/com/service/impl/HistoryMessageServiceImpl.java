@@ -42,7 +42,7 @@ public class HistoryMessageServiceImpl implements HistoryMessageService{
 	@Override
 	public PageBean<HistoryMessage> getPageBean(Integer currentPage, int pageSize) {
 		// TODO Auto-generated method stub
-		return historyMessageDao.getPageBean(currentPage, pageSize, "from HistoryMessage", "select count(1) from HistoryMessage", null);
+		return historyMessageDao.getPageBean(currentPage, pageSize, "from HistoryMessage", "select count(*) from HistoryMessage", null);
 	}
 
 	@Override

@@ -41,8 +41,8 @@ public class DiseaseMessageServiceImpl implements DiseaseMessageService{
 
 	@Override
 	public List<DiseaseMessage> find(String key) {
-		
-		return diseaseMessageDao.find("from DiseaseMessage d where d.title like '%?%'", key);
+		System.out.println(key);
+		return diseaseMessageDao.find("from DiseaseMessage d where d.title like '%" + key + "%'");
 	}
 
 	@Override

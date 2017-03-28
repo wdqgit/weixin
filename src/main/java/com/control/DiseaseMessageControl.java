@@ -78,6 +78,7 @@ public class DiseaseMessageControl {
 	public ModelAndView find(String key){
 		ModelAndView mav = new ModelAndView();
 		List<DiseaseMessage> diseaseMessages = diseaseMessageService.find(key);
+		System.out.println(diseaseMessages.size());
 		mav.addObject("diseaseMessages", diseaseMessages);
 		mav.setViewName("diseaseMessage/find");
 		return mav;

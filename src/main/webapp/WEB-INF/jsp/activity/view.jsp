@@ -5,8 +5,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>义诊活动详细页面</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/css/bootstrap.min.css">
 <script src="${pageContext.request.contextPath }/js/jquery.min.js"></script>
@@ -14,7 +15,7 @@
 </head>
 <body>
 	<div style="padding-top: 10px;">
-		<span class="lead"><a href="list.do?type=${type }"><span
+		<span class="lead"><a href="javascript:window.history.back(-1);"><span
 				class="glyphicon glyphicon-arrow-left"></span></a></span> <span class=""
 			style="padding-left: 49.5%;"> <c:if test="${type == 'admin' }">
 				<a
@@ -35,13 +36,18 @@
 				<td><c:if test="${type == 'admin' }">
 						<a href="delete.do?id=${activity.id }" class="btn btn-primary"
 							role="button">取消活动</a>
-					</c:if></td>
+					</c:if>
+					<c:if test="${type == 'people' }">
+					<a href="${pageContext.request.contextPath }/people/remove.do?activityId=${activity.id }&peopleId=${people.id}"  class="btn btn-primary"
+							role="button">取消参加</a>
+					</c:if>
+					</td>
 				<td><c:if test="${type == 'people' }">
 						<c:forEach items="${people.activitys }" var="p_activity">
 
 							<c:if test="${p_activity.id == activity.id }">
 								<c:set var="p_a_type" value="${activity.id }" />
-								<a href="#" class="btn btn-default btn-lg disabled"
+								<a href="#" class="btn btn-primary disabled"
 									role="button">已参加</a>
 							</c:if>
 						</c:forEach>

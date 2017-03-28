@@ -3,6 +3,7 @@
 <!DOCTYPE html >
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 	<meta charset="UTF-8">
 <title>注册界面</title>
 <link rel="stylesheet"

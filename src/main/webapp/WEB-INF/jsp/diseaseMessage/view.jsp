@@ -3,8 +3,9 @@
     <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 	<meta charset="utf-8"> 
-	<title>Bootstrap 实例 - 水平表单</title>
+	<title>病症详细</title>
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/css/bootstrap.min.css">  
 	<script src="${pageContext.request.contextPath }/js/jquery.min.js"></script>
 	<script src="${pageContext.request.contextPath }/js/bootstrap.min.js"></script>

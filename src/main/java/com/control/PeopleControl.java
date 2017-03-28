@@ -1,6 +1,8 @@
 package com.control;
 
+import java.net.URLDecoder;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -8,8 +10,10 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.domain.po.Activity;
 import com.domain.po.Admin;
 import com.domain.po.People;
 import com.domain.po.Sex;
@@ -47,13 +51,15 @@ public class PeopleControl {
 		mav.setViewName("redirect:listAdmin.do");
 		return mav;
 	}
+	@ResponseBody
 	@RequestMapping("/sendIdCode")
-	public void sendIdCode(HttpServletRequest req){
+	public void sendIdCode(HttpServletRequest req, String phone){
 		int code = (int)((Math.random()*9+1)*100000);
 		HttpSession session = req.getSession();
 		session.setAttribute("code", code);
 		session.setMaxInactiveInterval(60);
-		MessageUtil.sendDuanXin(code);
+		System.out.println("sendIdCode phone:" + phone);
+		MessageUtil.sendDuanXin(code, phone);
 	}
 	@RequestMapping("/loginUI")
 	public ModelAndView loginUI(){
@@ -71,7 +77,13 @@ public class PeopleControl {
 				if(code.equals(idCode)){*/
 					req.getSession().setAttribute("admin", admin);
 					mav.addObject("type", "admin");
-					mav.setViewName("redirect:/activity/list.do");
+					String path = req.getParameter("path");
+					if(path != null && !"".equals(path)){
+						path = URLDecoder.decode(path);
+						mav.setViewName("redirect:" + path);
+					}else{
+						mav.setViewName("redirect:/admin/index.do");
+					}
 					return mav;
 			/*	}else{
 					mav.addObject("message", "验证码错误！");
@@ -87,7 +99,13 @@ public class PeopleControl {
 //					if(code.equals(idCode)){
 						req.getSession().setAttribute("people", people);
 						mav.addObject("type", "people");
-						mav.setViewName("redirect:/activity/list.do");
+						String path = req.getParameter("path");
+						if(path != null && !"".equals(path)){
+							path = URLDecoder.decode(path);
+							mav.setViewName("redirect:" + path);
+						}else{
+							mav.setViewName("redirect:/activity/list.do");
+						}
 						return mav;
 //					}else{
 //						mav.addObject("message", "验证码错误！");
@@ -104,7 +122,13 @@ public class PeopleControl {
 						peopleService.save(people);
 						req.getSession().setAttribute("people", people);
 						mav.addObject("type","people");
-						mav.setViewName("redirect:/activity/list.do");
+						String path = req.getParameter("path");
+						if(path != null && !"".equals(path)){
+							path = URLDecoder.decode(path);
+							mav.setViewName("redirect:" + path);
+						}else{
+							mav.setViewName("redirect:/activity/list.do");
+						}
 						return mav;
 					}else{
 						mav.addObject("message", "验证码错误！");
@@ -119,8 +143,23 @@ public class PeopleControl {
 		return mav;
 	}
 	@RequestMapping("/view")
-	public ModelAndView view(Long id, String type){
+	public ModelAndView view(Long id, String type, HttpServletRequest req){
 		ModelAndView mav = new ModelAndView();
+		if(id == null || id <= 0){
+			if(req.getSession().getAttribute("people") != null){
+				People people = (People) req.getSession().getAttribute("people");
+				mav.addObject("people", people);
+				mav.addObject("type", "people");
+				mav.setViewName("/people/view");
+				return mav;
+			}else if(req.getSession().getAttribute("admin") != null){
+				Admin admin = (Admin) req.getSession().getAttribute("admin");
+				mav.addObject("admin", admin);
+				mav.addObject("type", "admin");
+				mav.setViewName("/people/view");
+				return mav;
+			}
+		}
 		System.out.println(type);
 		if("admin".equals(type)){
 			Admin admin = peopleService.getAdminById(id);
@@ -177,5 +216,44 @@ public class PeopleControl {
 		mav.setViewName("redirect:/activity/list.do");
 		
 		return mav;
+	}
+	@RequestMapping("/logout")
+	public String logout(String type, HttpServletRequest req){
+		if("admin".equals(type)){
+			req.getSession().removeAttribute("admin");
+		}else if("people".equals(type)){
+			req.getSession().removeAttribute("people");
+		}
+		return "redirect:loginUI.do";
+	}
+	
+	@RequestMapping("/viewMyActivitys")
+	public ModelAndView viewMyActivitys(Long id){
+		ModelAndView mav = new ModelAndView();
+		People people = peopleService.get(id);
+		mav.addObject("activitys", people.getActivitys());
+		mav.setViewName("people/viewMyActivitys");
+		
+		return mav;
+	}
+	@RequestMapping("/remove")
+	public ModelAndView remove(Long activityId, Long peopleId){
+		ModelAndView mav = new ModelAndView();
+		People people = peopleService.get(peopleId);
+		Set<Activity> activitys = people.getActivitys();
+		for(Activity activity : activitys){
+			if(activity.getId() == activityId){
+				activitys.remove(activity);
+			}
+		}
+		people.setActivitys(activitys);
+		peopleService.updatePeople(people);
+		mav.setViewName("redirect:viewMyActivitys.do?id=" + people.getId());
+		return mav;
+	}
+	
+	@RequestMapping("/me")
+	public String me(){
+		return "me";
 	}
 }

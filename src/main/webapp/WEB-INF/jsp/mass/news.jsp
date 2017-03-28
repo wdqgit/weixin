@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 	<meta charset="utf-8"> 
@@ -52,7 +53,7 @@
 		<label for="lastname"  class="col-sm-2 control-label">正文：</label>
 		<div class=" col-xs-10" id="lastname" >
 			
-			<script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
+			<script id="editor" name="content" type="text/plain" style="width:1024px;height:500px;"></script>
 			<br/>
 		</div>
 		

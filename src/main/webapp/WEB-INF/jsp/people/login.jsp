@@ -3,6 +3,7 @@
 <!DOCTYPE html >
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <meta charset="UTF-8">
 <title>登陆界面</title>
 <link rel="stylesheet"
@@ -11,6 +12,9 @@
 <script src="${pageContext.request.contextPath }/js/bootstrap.min.js"></script>
 </head>
 <body>
+	<h1 class="text-center">义诊微信公众号后台管理</h1><br/><br/>
+
+
 	<div>
 		<span style="color: red;">${message }</span>
 	</div>
@@ -29,8 +33,7 @@
 				<input type="text" name="idCode" class="form-control"
 					placeholder="请输入验证码"><br />
 
-				<button type="button" id="send"
-					class="btn btn-primary btn-lg btn-block">发送验证码</button>
+				<input type="button"  id="send" value="发送验证码" class="btn btn-primary btn-lg btn-block">
 
 			</div>
 
@@ -49,7 +52,6 @@
 		var that = this;
 		var times = 60;
 		this.disabled = true;
-
 		timer1 = setInterval(function() {
 			times--;
 			that.value = times + "秒后重试";
@@ -60,10 +62,12 @@
 				times = 60;
 			}
 		}, 1000);
+		
+		
 		$.ajax({
 			url : "sendIdCode.do",
 			type : "post",
-
+			data : "phone=" + $("#firstname").val(),
 			success : function() {
 				return true;
 			},

@@ -1,5 +1,8 @@
 package com.control;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,7 +28,7 @@ public class ActivityControl {
 	@Resource
 	private PeopleService peopleService;
 	@RequestMapping("/list")
-	public ModelAndView findRun(String type, HttpServletRequest req){
+	public ModelAndView findRun(String type, HttpServletRequest req) throws ParseException{
 		ModelAndView mav = new ModelAndView();
 		List<Activity> activitys = activityService.findRun();
 		mav.addObject("activitys", activitys);
@@ -111,6 +114,14 @@ public class ActivityControl {
 		activityService.update(activity);
 		mav.addObject("type", "people");
 		mav.setViewName("redirect:list.do");
+		return mav;
+	}
+	@RequestMapping("/viewPeople")
+	public ModelAndView viewPeople(Long id){
+		ModelAndView mav = new ModelAndView();
+		Activity activity = activityService.get(id);
+		mav.addObject("activity", activity);
+		mav.setViewName("/activity/viewPeople");
 		return mav;
 	}
 	

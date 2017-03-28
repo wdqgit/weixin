@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet"
@@ -12,9 +13,8 @@
 </head>
 <body>
 	<div style="padding-top: 10px;">
-		<span class="lead"><a href="listAdmin.do"><span
-				class="glyphicon glyphicon-arrow-left"></span></a></span> <span class=""
-			style="padding-left: 49.5%;"> ${admin.name } </span>
+		<span class="lead"><a href="list.do?type=admin"><span
+				class="glyphicon glyphicon-arrow-left"></span></a></span>
 	</div>
 	<form class="form-horizontal" role="form" action="add.do" method="post">
 		<div class="form-group">
@@ -83,7 +83,7 @@
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-				<button type="submit" class="btn btn-primary btn-lg btn-block">登录</button>
+				<button type="submit" class="btn btn-primary btn-lg btn-block">添加</button>
 				<button type="reset" class="btn btn-primary btn-lg btn-block">重置</button>
 			</div>
 		</div>

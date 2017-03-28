@@ -237,29 +237,33 @@ public class WeiXinUtil {
 	
 	public static Menu initMenu(){
 		Menu menu = new Menu();
-		ClickButton button11 = new ClickButton();
-		button11.setName("click菜单");
-		button11.setType("click");
-		button11.setKey("11");
+		ViewButton button11 = new ViewButton();
+		button11.setName("历届活动");
+		button11.setType("view");
+		button11.setUrl("http://yizhen.tunnel.qydev.com/weixin/history/list.do");
 		
 		ViewButton button21 = new ViewButton();
-		button21.setName("view菜单");
+		button21.setName("名方名医");
 		button21.setType("view");
-		button21.setUrl("http://yizhen.tunnel.qydev.com/weixin/core/sendTextUI.do");
+		button21.setUrl("http://yizhen.tunnel.qydev.com/weixin/disease/list.do");
 		
-		ClickButton button32 = new ClickButton();
-		button32.setName("扫码事件");
-		button32.setType("scancode_push");
-		button32.setKey("32");
+		ViewButton button32 = new ViewButton();
+		button32.setName("加入我们");
+		button32.setType("view");
+		button32.setUrl("http://yizhen.tunnel.qydev.com/weixin/activity/list.do?type=people");
 		
-		ClickButton button33 = new ClickButton();
-		button33.setName("地理位置事件");
-		button33.setType("location_select");
-		button33.setKey("33");
+		ViewButton button33 = new ViewButton();
+		button33.setName("我");
+		button33.setType("view");
+		button33.setUrl("http://yizhen.tunnel.qydev.com/weixin/people/view.do");
+		ViewButton button34 = new ViewButton();
+		button34.setName("联系我们");
+		button34.setType("view");
+		button34.setUrl("http://yizhen.tunnel.qydev.com/weixin/people/me.do");
 		
 		Button button31 = new Button();
 		button31.setName("事件");
-		button31.setSub_button(new Button[]{button32,button33});
+		button31.setSub_button(new Button[]{button32,button33, button34});
 		menu.setButton(new Button[]{button11,button21,button31});
 		return menu;
 	}
@@ -366,7 +370,7 @@ public class WeiXinUtil {
 		
 	}
 	//生成临时二维码
-	public static void createQRCode(){
+	public static String createQRCode(){
 		QRCode qrcode = new QRCode();
 		qrcode.setAction_name("QR_LIMIT_SCENE");
 		qrcode.setExpire_seconds(604800);
@@ -379,7 +383,11 @@ public class WeiXinUtil {
 		String url = CREATE_QRCODE_URL.replace("TOKEN", token.getToken());
 		
 		JSONObject jsonObject = doPostStr(url, outStr);
-		System.out.println(jsonObject);
+		if(jsonObject.get("errcode") == null){
+			return jsonObject.get("ticket").toString();
+		}else{
+			return null;
+		}
 		
 	}
 	

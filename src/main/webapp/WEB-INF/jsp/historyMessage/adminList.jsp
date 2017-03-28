@@ -4,6 +4,7 @@
     <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 	<meta charset="utf-8"> 
 	<title>Bootstrap 实例 - 水平表单</title>
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/css/bootstrap.min.css">  
@@ -12,7 +13,7 @@
 </head>
 <body>
 
-<div style="padding: 20px 100px 10px;">
+<div style="padding-top: 20px;">
 	<form action="find.do" class="bs-example bs-example-form" role="form">
 			<div class="col-lg-6">
 				<div class="input-group">
@@ -27,10 +28,11 @@
 	</form>
 	<br/>
 	<div style="padding: 30px 0px 0px">
-	<table class="table" style="width:600px;">
+	<table class="table" ">
 		<thead>
 			<tr>
 				<th >标题</th>
+				<th>时间</th>
 				<th >操作</th>
 			</tr>
 		</thead>
@@ -38,6 +40,7 @@
 		<c:forEach items="${pageBean.recordList }" var="history">
 			<tr>
 				<td>${history.title }</td>
+				<td>${history.time }</td>
 				<td>
 					<a href="updateUI.do?id=${history.id }" class="btn btn-primary" role="button">修改</a>
 					<a href="delete.do?id=${history.id }" class="btn btn-primary" role="button">删除</a>

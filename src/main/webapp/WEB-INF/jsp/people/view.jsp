@@ -4,8 +4,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>我的详细页面</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/css/bootstrap.min.css">
 <script src="${pageContext.request.contextPath }/js/jquery.min.js"></script>
@@ -40,7 +41,10 @@
 				<tr><td><span class="lead"><a
 			href="${pageContext.request.contextPath }/activity/list.do?type=${type }"><span
 				class="glyphicon glyphicon-arrow-left"></span></a></span></td>
-					<td><a href="updateUI.do?id=${people.id }&type=people"
+					<td>
+					<a href="viewMyActivitys.do?id=${people.id }"
+						class="btn btn-primary" role="button">查看我的活动</a>
+					<a href="updateUI.do?id=${people.id }&type=people"
 						class="btn btn-primary" role="button">修改</a></td>
 				</tr>
 				<tr>
